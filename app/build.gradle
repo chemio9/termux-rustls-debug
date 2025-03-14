@@ -38,6 +38,9 @@ android {
         implementation project(":termux-shared")
     }
 
+    buildFeatures {
+        buildConfig true
+    }
     defaultConfig {
         applicationId "com.termux"
         minSdkVersion project.properties.minSdkVersion.toInteger()
