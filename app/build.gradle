@@ -1,4 +1,3 @@
-import groovy.json.JsonSlurper
 plugins {
     id "com.android.application"
 }
@@ -11,16 +10,6 @@ ext {
     // by replacing $PREFIX since app code is dependant on the variant used to build the APK.
     // Currently supported values are: [ "apt-android-7" "apt-android-5" ]
     packageVariant = System.getenv("TERMUX_PACKAGE_VARIANT") ?: "apt-android-7" // Default: "apt-android-7"
-}
-
-repositories {
-    google()
-    mavenCentral()
-    gradlePluginPortal()
-    maven {
-        url = findRustlsPlatformVerifierProject()
-        metadataSources.artifact()
-    }
 }
 
 android {
@@ -255,15 +244,4 @@ cargo {
     module  = "./src/main/rust/rustls_integration"       // Or whatever directory contains your Cargo.toml
     libname = "rustls_integration"          // Or whatever matches Cargo.toml's [package] name.
     targets = ["arm64","arm","x86","x86_64"]
-}
-
-String findRustlsPlatformVerifierProject() {
-    def dependencyText = providers.exec {
-        it.workingDir = new File("./")
-        commandLine("cargo", "metadata", "--format-version", "1", "--manifest-path", "./src/main/rust/rustls_integration/Cargo.toml")
-    }.standardOutput.asText.get()
-
-    def dependencyJson = new JsonSlurper().parseText(dependencyText)
-    def manifestPath = file(dependencyJson.packages.find { it.name == "rustls-platform-verifier-android" }.manifest_path)
-    return new File(manifestPath.parentFile, "maven").path
 }

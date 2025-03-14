@@ -7,7 +7,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath "com.android.tools.build:gradle:8.8.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21"
         classpath 'org.mozilla.rust-android-gradle:plugin:0.9.0'
     }
 }
@@ -18,6 +19,19 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
     }
+}
+
+import groovy.json.JsonSlurper
+String findRustlsPlatformVerifierProject() {
+    var PATH_TO_DEPENDENT_CRATE = "./app/src/main/rust/rustls_integration"
+    def dependencyText = providers.exec {
+        // print now working directory
+        commandLine("cargo", "metadata", "--format-version", "1", "--manifest-path", "$PATH_TO_DEPENDENT_CRATE/Cargo.toml")
+    }.standardOutput.asText.get()
+
+    def dependencyJson = new JsonSlurper().parseText(dependencyText)
+    def manifestPath = file(dependencyJson.packages.find { it.name == "rustls-platform-verifier-android" }.manifest_path)
+    return new File(manifestPath.parentFile, "maven").path
 }
 
 task clean(type: Delete) {
