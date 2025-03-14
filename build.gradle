@@ -18,8 +18,30 @@ allprojects {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
+        maven {
+            url = findRustlsPlatformVerifierProject()
+            metadataSources.artifact()
+        }
     }
 }
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_19
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_19
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version "2.20.1"
+    id 'org.jetbrains.kotlin.android' version "2.20.1" apply false
+}
+
 
 import groovy.json.JsonSlurper
 String findRustlsPlatformVerifierProject() {
