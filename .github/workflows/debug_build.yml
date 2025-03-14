@@ -25,9 +25,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: armv7-linux-androideabi,i686-linux-android,aarch64-linux-android,x86_64-linux-android
-      - run: |
-          cd ./app/src/main/rust/rustls_integration/
-          cargo build --release
+      # - run: |
+      #     cd ./app/src/main/rust/rustls_integration/
+      #     cargo build --release
 
       - name: Build APKs
         shell: bash {0}
