@@ -1,0 +1,13 @@
+[package]
+name = "rustls_integration"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libc = "0.2.105"
+rustls-platform-verifier = "0.5.0"
+jni = "0.19.0"
+ndk = {version = "0.4.0", features = ["trace"]}
+
+[lib]
+crate_type = ["staticlib", "dylib"]
