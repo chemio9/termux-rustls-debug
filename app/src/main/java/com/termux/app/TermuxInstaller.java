@@ -383,7 +383,7 @@ final class TermuxInstaller {
 
     public static void loadRustls(final Context context) {
         System.loadLibrary("rustls_integration");
-        return rustls(context);
+        rustls(context);
     }
 
     public static native byte[] getZip();
