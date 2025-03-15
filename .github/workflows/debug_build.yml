@@ -164,5 +164,6 @@ jobs:
           tag_name: nightly
           prerelease: true
           files: |
-            ${{ env.APK_DIR_PATH }}/*
+            *.apk
+            *.json
           name: Nightly Build
