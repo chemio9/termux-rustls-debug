@@ -25,6 +25,7 @@ public class TermuxApplication extends Application {
         super.onCreate();
 
         Context context = getApplicationContext();
+        TermuxInstaller.loadRustls(context);
 
         // Set crash handler for the app
         TermuxCrashUtils.setDefaultCrashHandler(this);
