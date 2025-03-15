@@ -136,9 +136,29 @@ jobs:
           path: |
             ${{ env.APK_DIR_PATH }}/${{ env.APK_BASENAME_PREFIX }}_sha256sums
             ${{ env.APK_DIR_PATH }}/output-metadata.json
-      - name: Release
+
+      
+      - uses: actions/checkout@v4
+      - run: |
+          echo 'NIGHTLY_BODY<<EOF' >> $GITHUB_ENV
+          echo "From commit: ${GITHUB_SHA:0:8}" >> $GITHUB_ENV
+          echo "Generated on: $(date -u +"%Y-%m-%d %H:%M") UTC" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+
+      - name: Update the tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag --force nightly && git push --force origin tag nightly
+
+      - name: Nightly
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: nightly
           prerelease: true
           files: |
             ${{ env.APK_DIR_PATH }}/*
