@@ -21,7 +21,9 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: armv7-linux-androideabi,i686-linux-android,aarch64-linux-android,x86_64-linux-android
