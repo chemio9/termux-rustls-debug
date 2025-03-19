@@ -159,7 +159,7 @@ jobs:
           git tag --force nightly && git push --force origin tag nightly
 
       - name: Nightly
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly
           prerelease: true
